@@ -19,12 +19,12 @@ $genres = [
 $books = [];
 for ($i = 0; $i < 15; $i++) {
     $books[] = [
-        'title' => $faker->words(3, true), // Generates a 3-word title
+        'title' => ucfirst($faker->words(3, true)), // Capitalize the title
         'author' => $faker->name(),
         'genre' => $faker->randomElement($genres),
         'year' => $faker->numberBetween(1900, 2024),
         'isbn' => $faker->isbn13(),
-        'summary' => $faker->paragraph(2)
+        'summary' => htmlspecialchars(implode("\n\n", $faker->paragraphs(2))) // Fix paragraph issue
     ];
 }
 
@@ -41,11 +41,11 @@ for ($i = 0; $i < 15; $i++) {
 </head>
 <body class="bg-light">
 
-    <div class="container mt-4">
-        <h2 class="text-center mb-4">Generated Fake Books</h2>
+    <div class="container mt-5">
+        <h2 class="text-center mb-4 text-primary">Generated Fake Books</h2>
 
         <div class="table-responsive">
-            <table class="table table-bordered table-striped">
+            <table class="table table-hover table-bordered text-center">
                 <thead class="table-dark">
                     <tr>
                         <th>Title</th>
@@ -64,7 +64,7 @@ for ($i = 0; $i < 15; $i++) {
                             <td><?= htmlspecialchars($book['genre']) ?></td>
                             <td><?= $book['year'] ?></td>
                             <td><?= $book['isbn'] ?></td>
-                            <td><?= htmlspecialchars($book['summary']) ?></td>
+                            <td class="text-start"><?= nl2br($book['summary']) ?></td>
                         </tr>
                     <?php endforeach; ?>
                 </tbody>
